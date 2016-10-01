@@ -3,7 +3,7 @@ twitter:
   access_secret : 'NbzmypwIj5CoImRIwGs8NQiu2Yl6wTtzp7fkicURPLfi7'
   consumer_key : 'eoUh6hm3Nvk4M0DCVjq0HJ2AU'
   consumer_secret : 'PrjgcsbR6N1hwPxzkhh4bzC5vXJunoqGz6CDrlXHtoKG8DaZQm'
-  path : '/root/Documentos/twitter/source/files/'
+  path : '/home/ralymontes/twitter/source/files/'
 correo:
   user: 'israel.montes@sm4rt.com'
   pwd: 'Ralymontes1111'
