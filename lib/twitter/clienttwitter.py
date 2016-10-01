@@ -1,13 +1,24 @@
+import time
 import tweepy
 import os
 import json
-class TwitterClient:
-	def __init__(self, access_token, access_secret, consumer_key, consumer_secret, path):
+import thread
+import threading
+from lib.correo.clientcorreo import ClientCorreo
+from tweepy.auth import OAuthHandler
+
+
+
+
+class StdOutListener(tweepy.StreamListener ):
+	def __init__(self, correo_config, StdOutListener, access_token, access_secret, consumer_key, consumer_secret, path):
 		self.access_token = access_token
 		self.access_secret = access_secret
 		self.consumer_key = consumer_key
 		self.consumer_secret = consumer_secret
 		self.path = path
+		self.StdOutListener = StdOutListener
+		self.correo_config = correo_config
 	
 	def validateConnectionOption(self, option):
 		lista = self.connectTo(option)		
@@ -25,7 +36,7 @@ class TwitterClient:
 		auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
 		auth.set_access_token(self.access_token, self.access_secret)
 		#api = tweepy.API(auth)
-		l = StdOutListener()
+		l = StdOutListener(self.correo_config, self.StdOutListener, self.access_token, self.access_secret, self.consumer_key, self.consumer_secret, self.path)
 		print "Showing all new tweets for #programming:"
 		stream = tweepy.Stream(auth, l)
 		
@@ -67,26 +78,9 @@ class TwitterClient:
 					print("Empty File")
 					exit(0)
 	def processUsers(self, dataU, dataH, lista):
-		"""
-		for user in dataU:
-			usr = API.get_user(user)#El ubjeto usuario es el que guarda la informacion
-			#for tweet in tweepy.Cursor(API.search,q=user,rpp=1,result_type="recent",include_entities=True,).    items():
-			#       print (tweet.created_at)
-			#       print (tweet.text)
-			for hashtag in dataH:
-				for tweet in tweepy.Cursor(API.search, q=(hashtag)).items(5):
-					nombre = str(tweet.author.screen_name)
-					if (user == nombre):
-						print ("Screen-name:", tweet.author.screen_name.encode('utf8'))
-						print ("Tweet:", tweet.text.encode('utf8'))
-						print tweet.entities.get('hashtags')
-		"""
-		#l = StdOutListener()
-		#auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
-		#auth.set_access_token(self.access_token, self.access_secret)
-		#print "Showing all new tweets for #programming:"
 		
-		stream = tweepy.Stream(lista[1], lista[2])
+		
+		stream = tweepy.Stream(lista[0], lista[1])
 		stream.filter(track=['programming'])
 
 	def processHashtags(self, data, stream):
@@ -98,19 +92,46 @@ class TwitterClient:
 		exit(0)
 
 
+	def detectaAlertaHilo(self, tweet, user):#paramas d, u
+		dataU = self.readFile("users") #data es lista de users o hashtags
+		dataH = self.readFile("hashtags")
+		clienteCorreo = ClientCorreo(self.correo_config)
+		clienteCorreo.funcion()
 
-class StdOutListener(tweepy.StreamListener):
+
+		print("Dentro del hilo",'\n')
+		print(tweet)
+		print (user)
+		
 	def on_data(self, data):
 		#print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
-		#print (decoded)
+		
 		decoded = json.loads(data)
-
+		u = decoded["user"]["screen_name"]
+		d = decoded['text']
 		print (decoded['user']['screen_name'])
 		print (decoded['text'])
+		n = len(decoded['entities']['urls'])
+		print decoded['entities']['urls']
+ 		if (n > 0):
+			for string in ['entities']['urls']:
+				print i
+		print ("N es: ", n)
+		#url = decoded['entities']['urls'][0]
+		#print (url)
+	
+		try:
 
-		if ("raly_montes" == decoded['user']['screen_name']):
-			print ("ALERTA",'\n')
+			t = threading.Thread(target=self.detectaAlertaHilo, args=(d,u))
+			#thread.start_new_thread( detectaAlertaHilo, (d, u, ))
+			t.start()
+		except:
+			print "Error: unable to start thread"
+
 		return True
 
 	def on_error(self, status):
         	print status
+
+
+

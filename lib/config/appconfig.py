@@ -18,3 +18,6 @@ class ApplicationConfig:
 class TwitterConfig(ApplicationConfig):
 	def __init__(self,  filename, section='twitter'):
 		ApplicationConfig.__init__(self, filename, section)
+class CorreoConfig(ApplicationConfig):
+	def __init__(self, filename, section='correo'):
+		ApplicationConfig.__init__(self, filename, section)
