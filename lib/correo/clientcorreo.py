@@ -16,6 +16,6 @@ class ClientCorreo:
 		#self.body = body
 		self.correo_config = correo_config
 	def funcion(self):
-		print (self.correo_config)
+
 		#twitter_config.get_property('access_token'), twitter_config.get_property('access_secret'), twitter_config.get_property('consumer_key'), twitter_config.get_property('consumer_secret'), twitter_config.get_property('path')
 		print ("Dentro de correo")

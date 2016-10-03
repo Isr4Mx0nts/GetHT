@@ -1,4 +1,5 @@
 import time
+import requests
 import tweepy
 import os
 import json
@@ -47,9 +48,9 @@ class StdOutListener(tweepy.StreamListener ):
 			exit(-1)
 		"""
 		#l = StdOutListener(self.correo_config, self.StdOutListener, self.access_token, self.access_secret, self.consumer_key, self.consumer_secret, self.path)
-		print "Showing all new tweets for #programming:"
+		#print "Showing all new tweets for #programming:"
 		stream = tweepy.Stream(auth, l)
-		stream.filter(track=['programming'],async=True)
+		stream.filter(track=LIST[1],async=True)
 
 
 	def readFile(self):
@@ -82,15 +83,38 @@ class StdOutListener(tweepy.StreamListener ):
 
 
 
-	def detectaAlertaHilo(self, tweet, user):#paramas d, u
-		LIST = self.readFile() 
+	def detectaAlertaHilo(self, tweet, user, url):#paramas d, u, url
+		LIST = self.readFile()#ListC	ListH
+		
+		
+		session = requests.Session() 
+		for i in LIST[1]:
+			if (i in tweet): 
+				if (url):
+					for j in url:
+						if (j['url']):
+							urlCortada = j['url']
+							resp = session.head(urlCortada, allow_redirects=True)
+							for k in LIST[0]:
+								url_redirect = str(resp.url)
+								if (k in url_redirect):
+									print ("ALERTA")
+							
+
+							
+			
+
+		#print (tweet)
+		#print (url)
 		clienteCorreo = ClientCorreo(self.correo_config)
 		clienteCorreo.funcion()
-
+		
+		
+		
+		#print (LIST)#ListU, ListH
 
 		print("Dentro del hilo--------------------------------------------------",'\n')
-		print(tweet)
-		print (user)
+
 		
 	def on_data(self, data):
 		#print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))
@@ -98,24 +122,17 @@ class StdOutListener(tweepy.StreamListener ):
 		decoded = json.loads(data)
 		u = decoded["user"]["screen_name"]
 		d = decoded['text']
-		print (decoded['user']['screen_name'])
-		print (decoded['text'])
 		n = len(decoded['entities']['urls'])
-		print decoded['entities']['urls']
- 		if (n > 0):
-			for i in decoded['entities']['urls']:
-				print i
-		print ("N es: ", n)
-		#url = decoded['entities']['urls'][0]
-		#print (url)
-	
+ 		#if (n > 0):
+		url = decoded['entities']['urls']
 		try:
 
-			t = threading.Thread(target=self.detectaAlertaHilo, args=(d,u))
+			t = threading.Thread(target=self.detectaAlertaHilo, args=(d,u,url))
 			#thread.start_new_thread( detectaAlertaHilo, (d, u, ))
 			t.start()
-		except:
+		except e:
 			print "Error: unable to start thread"
+			print (e)
 
 		return True
 
