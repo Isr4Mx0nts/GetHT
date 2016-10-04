@@ -3,7 +3,11 @@ twitter:
   access_secret : 'NbzmypwIj5CoImRIwGs8NQiu2Yl6wTtzp7fkicURPLfi7'
   consumer_key : 'eoUh6hm3Nvk4M0DCVjq0HJ2AU'
   consumer_secret : 'PrjgcsbR6N1hwPxzkhh4bzC5vXJunoqGz6CDrlXHtoKG8DaZQm'
+<<<<<<< HEAD
   path : '/root/twitter/source/files/'
+=======
+  path : '/root/Escritorio/twitter/source/files/'
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
 correo:
   user: 'israel.montes@sm4rt.com'
   pwd: 'Ralymontes1111'

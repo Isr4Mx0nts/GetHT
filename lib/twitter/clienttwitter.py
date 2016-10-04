@@ -35,6 +35,27 @@ class StdOutListener(tweepy.StreamListener ):
 		auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
 		auth.set_access_token(self.access_token, self.access_secret)
 
+<<<<<<< HEAD
+=======
+		#api = tweepy.API(auth)
+		
+		#print ("Showing all new tweets for #programming:")
+		#stream = tweepy.Stream(auth, l)
+		"""
+		LIST = self.readFile() 
+		List = []
+		if (stream != None and auth != None):
+			List.append(stream)
+			List.append(auth)
+			List.append(l)
+			return (List)
+		else:
+			print("Error de autenticacion, verifique credenciales")
+			exit(-1)
+		"""
+		#l = StdOutListener(self.correo_config, self.StdOutListener, self.access_token, self.access_secret, self.consumer_key, self.consumer_secret, self.path)
+		#print "Showing all new tweets for #programming:"
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
 		stream = tweepy.Stream(auth, l)
 		stream.filter(track=LIST[1],async=True)
 
@@ -70,6 +91,7 @@ class StdOutListener(tweepy.StreamListener ):
 		config_file_path = os.path.join(os.getcwd(), 'config.yml')
 		self.correo_config = CorreoConfig(config_file_path)
 
+<<<<<<< HEAD
 		correo_client = ClientCorreo(self.correo_config.get_property('user'), self.correo_config.get_property('pwd'), self.correo_config.get_property('dest'), self.correo_config.get_property('subject'))
 		
 		session = requests.Session() 
@@ -83,11 +105,21 @@ class StdOutListener(tweepy.StreamListener ):
 			#matches = re.findall(r'#\w*', tweet)
 			#print (matches)
 			#if (matches):
+=======
+	def detectaAlertaHilo(self, tweet, user, url):#paramas d, u, url
+		LIST = self.readFile()#ListC	ListH
+		
+		
+		session = requests.Session() 
+		for i in LIST[1]:
+			if (i in tweet): 
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
 				if (url):
 					for j in url:
 						if (j['url']):
 							urlCortada = j['url']
 							resp = session.head(urlCortada, allow_redirects=True)
+<<<<<<< HEAD
 							for k in LIST[0]:#Lista de clientes
 								
 								url_redirect = str(resp.url)
@@ -111,6 +143,28 @@ class StdOutListener(tweepy.StreamListener ):
 
 		print("Sin alerta")
 
+=======
+							for k in LIST[0]:
+								url_redirect = str(resp.url)
+								if (k in url_redirect):
+									print ("ALERTA")
+							
+
+							
+			
+
+		#print (tweet)
+		#print (url)
+		clienteCorreo = ClientCorreo(self.correo_config)
+		clienteCorreo.funcion()
+		
+		
+		
+		#print (LIST)#ListU, ListH
+
+		print("Dentro del hilo--------------------------------------------------",'\n')
+
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
 		
 	def on_data(self, data):
 		#print '@%s: %s' % (decoded['user']['screen_name'], decoded['text'].encode('ascii', 'ignore'))

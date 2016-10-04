@@ -1,7 +1,10 @@
 #defacement
 #DDOS
 #XSS
+<<<<<<< HEAD
 #xss
+=======
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
 #attack
 #DOS
 #hack
@@ -12,7 +15,18 @@
 #hijacking
 #man in the middle
 #spoofing
+<<<<<<< HEAD
 #sniffer
 #SQLinjection
 #injection
 #rasonware
+=======
+#dns
+#http
+#smtp
+#pop3
+#IMAP
+#sniffer
+#SQLinjection
+#injection
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a

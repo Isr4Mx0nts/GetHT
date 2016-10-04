@@ -35,8 +35,22 @@ class ClientCorreo:
 		message = 'Subject: %s\n\n%s' % ("Posible ataque efectuado", text)		
 		server_ssl.sendmail("Oficina de Seguridad", self.dest, message)
 
+<<<<<<< HEAD
 
 		#server_ssl.quit()	server_ssl.sendmail(FROM, TO, message)
 		server_ssl.close()
 
 		print ('successfully sent the mail')
+=======
+class ClientCorreo:
+	def __init__(self, correo_config):# user, pwd, dest, subject, body):
+		#self.user = user
+		#self.pwd = dest
+		#self.subject = subject
+		#self.body = body
+		self.correo_config = correo_config
+	def funcion(self):
+
+		#twitter_config.get_property('access_token'), twitter_config.get_property('access_secret'), twitter_config.get_property('consumer_key'), twitter_config.get_property('consumer_secret'), twitter_config.get_property('path')
+		print ("Dentro de correo")
+>>>>>>> a11710452999ac5718563b4e7e7940f6d6087d0a
